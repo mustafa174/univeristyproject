@@ -56,14 +56,13 @@ app.post("/login-user", async (req, res) => {
   const { email, password } = req.body;
 
   const user = await Admin.findOne({ email });
-  const Adminpassword = await Admin.findOne({ password });
-  console.log(Adminpassword);
-  console.log(user);
+
   if (!user) {
-    alert("invalid email");
     return res.json({ error: "User Not Found" });
   }
-  if (Adminpassword) {
+  const ismatch = await bcrypt.compare(password, user.password);
+
+  if (ismatch) {
     const token = jwt.sign({}, JWT_SECRET);
     if (res.status(201)) {
       return res.json({ status: "ok", data: token });
@@ -98,7 +97,7 @@ app.post("/forgot-password", async (req, res) => {
         pass: "cjercyhchocelnws",
       },
     });
-
+    //faltoo tabs remove kro okk. mei call lrdo? sure us
     var mailOptions = {
       from: "workforce@gmail.com",
       to: "ihtishamshami180@gmail.com",
@@ -113,8 +112,11 @@ app.post("/forgot-password", async (req, res) => {
         console.log("Email sent: " + info.response);
       }
     });
+    res.send({ status: "ok" });
     console.log(link);
-  } catch (error) {}
+  } catch (error) {
+    res.send({ status: "Error" });
+  }
 });
 
 app.get("/reset-password/:id/:token", async (req, res) => {
