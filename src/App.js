@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "./common/Layout/Layout";
 import LoginPage from "./components/Auth/login/loginComponent";
-import { PrivateRoute } from "./utitls/privateRoute";
+// import { PrivateRoute } from "./utitls/privateRoute";
 import { allPrivateAppRoutes } from "./utitls/AllAppRoutes";
 const App = () => {
   return (
