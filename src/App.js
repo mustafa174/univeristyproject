@@ -1,44 +1,26 @@
-import React from "react";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "./index.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-
-import Login from "./components/login/login.component";
-import SignUp from "./components/registerSalesperson/signup.component";
-import Reset from "./components/resetPassword/reset";
-import Sidebar from "./components/sidebar/Sidebar";
-
-function App() {
+import { Routes, Route } from "react-router-dom";
+import Layout from "./common/Layout/Layout";
+import LoginPage from "./components/Auth/login/loginComponent";
+import { PrivateRoute } from "./utitls/privateRoute";
+import { allPrivateAppRoutes } from "./utitls/AllAppRoutes";
+const App = () => {
   return (
-    <Router>
-      <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-        <div className="container">
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to={"/sign-in"}>
-                  Login
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/sign-up"}>
-                  Register Salesperson
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+    <div>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+      </Routes>
 
       <Routes>
-        <Route exact path="/" element={<Login />} />
-        <Route path="/sign-in" element={<Login />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/reset" element={<Reset />} />
-        <Route path="/dashboard" element={<Sidebar />} />
+        {allPrivateAppRoutes.map((items, index) => {
+          return (
+            <Route element={<Layout element={items.component} />}>
+              <Route key={index} path={items.path} />
+            </Route>
+          );
+        })}
       </Routes>
-    </Router>
+    </div>
   );
-}
+};
 
 export default App;
